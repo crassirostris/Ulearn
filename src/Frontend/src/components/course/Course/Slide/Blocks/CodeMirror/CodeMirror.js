@@ -258,7 +258,7 @@ class CodeMirror extends React.Component {
 		return (
 			<React.Fragment>
 				{ submissions.length !== 0 && this.renderSubmissionsSelect() }
-				{ !isEditable && currentSubmission && this.renderHeader() }
+				{ /*!isEditable && currentSubmission && this.renderHeader() */}
 				<div className={ wrapperClassName }>
 					<Controlled
 						onBeforeChange={ this.onBeforeChange }
@@ -282,7 +282,7 @@ class CodeMirror extends React.Component {
 				{ !isEditable && this.renderEditButton() }
 				{/* TODO not included in current release !isEditable && currentSubmission && this.renderOverview(currentSubmission)*/ }
 				{ this.renderControls() }
-				{ showOutput && HasOutput(visibleCheckingResponse?.message, automaticChecking, expectedOutput) &&
+				{ showOutput && HasOutput(visibleCheckingResponse?.message, automaticChecking, expectedOutput) && // TODO показывать вывод в случае статуса процесса и эта последняя посылка
 				<ExerciseOutput
 					solutionRunStatus={ visibleCheckingResponse?.solutionRunStatus ?? SolutionRunStatus.Success }
 					message={ visibleCheckingResponse?.message }
@@ -324,20 +324,6 @@ class CodeMirror extends React.Component {
 				</ThemeContext.Provider>
 			</div>
 		);
-	}
-
-	renderHeader = () => {
-		const { automaticChecking, } = this.state.currentSubmission;
-
-		if(automaticChecking.result === CheckingResult.RightAnswer) {
-			return (
-				<div className={ styles.successHeader }>
-					{ texts.headers.allTestPassedHeader }
-				</div>
-			);
-		}
-
-		return null;
 	}
 
 	loadSubmissionToState = (submission,) => {

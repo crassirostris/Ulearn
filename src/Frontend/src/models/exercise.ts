@@ -1,5 +1,14 @@
 import { ShortUserInfo } from "./users";
 
+export interface RunSolutionResponse {
+	solutionRunStatus: SolutionRunStatus;
+	message: string | null; // Сообщение от проверяющей системы в случае ошибок на сервере и в случае некоторых ошибок компиляции.
+	submission: SubmissionInfo | null; // Если submission создан, он лежит в Submission, иначе null. Не создан в случае некоторых ошибок на сервере и иногда в случае ошибок компиляции.
+	score: number | null; // В случае rightAnswer не null. В остальных как попало; если null, то не изменился.
+	waitingForManualChecking: boolean | null; // В случае rightAnswer не null. В остальных как попало; если null, то не изменился.
+	prohibitFurtherManualChecking: boolean | null; // В случае rightAnswer не null.
+}
+
 export enum SolutionRunStatus {
 	Success = 'Success',
 	InternalServerError = 'InternalServerError', // Ошибка в проверяющей системе, подробности могут быть в Message. Если submission создан, он лежит в Submission, иначе null.

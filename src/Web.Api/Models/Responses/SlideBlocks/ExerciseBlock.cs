@@ -48,6 +48,9 @@ namespace Ulearn.Web.Api.Models.Responses.SlideBlocks
 		[DataMember]
 		public bool WaitingForManualChecking { get; set; }
 
+		[DataMember]
+		public bool ProhibitFurtherManualChecking { get; set; }
+
 		public ExerciseBlockResponse(AbstractExerciseBlock exerciseBlock,
 			ExerciseSlideRendererContext context)
 		{
@@ -62,6 +65,7 @@ namespace Ulearn.Web.Api.Models.Responses.SlideBlocks
 			Language = exerciseBlock.Language;
 			AttemptsStatistics = context.AttemptsStatistics;
 			WaitingForManualChecking = context.Submissions?.FirstOrDefault()?.ManualCheckings.Any(c => !c.IsChecked) ?? false;
+			ProhibitFurtherManualChecking = context.Submissions?.FirstOrDefault()?.ManualCheckings.Any(c => c.ProhibitFurtherManualCheckings) ?? false;
 			Submissions = context.Submissions
 				.EmptyIfNull()
 				.Select(s => SubmissionInfo.Build(s, reviewId2Comments))

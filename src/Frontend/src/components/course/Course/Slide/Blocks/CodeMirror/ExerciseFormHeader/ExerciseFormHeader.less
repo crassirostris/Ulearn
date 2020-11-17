@@ -1,0 +1,25 @@
+@import "../../../../courseVariables";
+
+.header {
+  z-index: 1;
+
+  padding: 12px 16px 20px;
+  margin-bottom: -8px;
+
+  font-family: @defaultFonts;
+  font-style: normal;
+  font-weight: normal;
+
+  font-size: 16px;
+  line-height: 22px;
+
+  border-radius: 8px 8px 0 0;
+  background: @lightGrey;
+}
+
+.successHeader {
+  .header;
+  border: 1px solid #3F9726;
+  background: @progressBarGreen;
+  color: @white;
+}

@@ -34,6 +34,8 @@ namespace Ulearn.Web.Api.Models.Responses.Exercise
 		[DataMember]
 		public bool? WaitingForManualChecking { get; set; } // В случае rightAnswer не null. В остальных как попало; если null, то не изменился.
 
+		public bool? ProhibitFurtherManualChecking { get; set; } // В случае rightAnswer не null.
+
 		public RunSolutionResponse(SolutionRunStatus status)
 		{
 			SolutionRunStatus = status;

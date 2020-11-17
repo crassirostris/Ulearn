@@ -27,11 +27,17 @@ const outputTypeToStyleAndHeader: EnumDictionary<OutputType, { style: string, he
 	[OutputType.Success]: { style: styles.output, header: texts.headers.output },
 }
 
-function HasOutput(message: string, automaticChecking: ExerciseAutomaticCheckingResponse, expectedOutput: string): boolean {
-	if(message)
+type OutputTypeAndBody = { outputType: OutputType, body: string | null };
+
+function HasOutput(message: string, automaticChecking: ExerciseAutomaticCheckingResponse,
+	expectedOutput: string
+): boolean {
+	if(message) {
 		return true;
-	if(!automaticChecking)
+	}
+	if(!automaticChecking) {
 		return false;
+	}
 	return !!automaticChecking.output
 		|| (automaticChecking.result === CheckingResult.WrongAnswer && !!expectedOutput)
 }
@@ -68,7 +74,7 @@ class ExerciseOutput extends React.Component<OutputTypeProps> {
 		);
 	}
 
-	getOutputTypeAndBody(): { outputType: OutputType, body: string | null } {
+	getOutputTypeAndBody(): OutputTypeAndBody {
 		const { solutionRunStatus, message, automaticChecking } = this.props;
 		switch (solutionRunStatus) {
 			case SolutionRunStatus.CompilationError:
@@ -82,7 +88,8 @@ class ExerciseOutput extends React.Component<OutputTypeProps> {
 				if(automaticChecking) {
 					return ExerciseOutput.getOutputTypeAndBodyFromAutomaticChecking(automaticChecking);
 				} else {
-					console.error(new Error(`automaticChecking is null when solutionRunStatuses is ${ solutionRunStatus }`));
+					console.error(
+						new Error(`automaticChecking is null when solutionRunStatuses is ${ solutionRunStatus }`));
 					return { outputType: OutputType.Success, body: message }
 				}
 			default:
@@ -91,8 +98,7 @@ class ExerciseOutput extends React.Component<OutputTypeProps> {
 		}
 	}
 
-	static getOutputTypeAndBodyFromAutomaticChecking(automaticChecking: ExerciseAutomaticCheckingResponse)
-		: { outputType: OutputType, body: string | null } {
+	static getOutputTypeAndBodyFromAutomaticChecking(automaticChecking: ExerciseAutomaticCheckingResponse): OutputTypeAndBody {
 		let outputType: OutputType;
 		const output = automaticChecking.output;
 		switch (automaticChecking.processStatus) {

@@ -207,10 +207,12 @@ namespace Ulearn.Web.Api.Controllers.Slides
 
 			var score = (await slideCheckingsRepo.GetExerciseSlideScoreAndPercent(courseId, exerciseSlide, userId)).Score;
 			var waitingForManualChecking = updatedSubmissionNoTracking.ManualCheckings.Any(c => !c.IsChecked) ? true : (bool?)null;
+			var prohibitFurtherManualChecking = updatedSubmissionNoTracking.ManualCheckings.Any(c => c.ProhibitFurtherManualCheckings);
 			var result = new RunSolutionResponse(SolutionRunStatus.Success)
 			{
 				Score = score,
 				WaitingForManualChecking = waitingForManualChecking,
+				ProhibitFurtherManualChecking = prohibitFurtherManualChecking,
 				Submission = SubmissionInfo.Build(updatedSubmissionNoTracking, null)
 			};
 
